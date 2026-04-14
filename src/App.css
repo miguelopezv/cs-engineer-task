@@ -1,0 +1,73 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard h1 {
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+
+.chart-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chart-cell {
+  width: 50%;
+  height: 300px;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.chart-cell canvas {
+  width: 100% !important;
+}
+
+.kpi-cell {
+  width: 25%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.kpi-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.kpi-box__title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+}
+
+.kpi-box__value {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.kpi-box__subtitle {
+  margin: 0.35rem 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+@media (max-width: 750px) {
+  .chart-cell {
+    width: 100%;
+  }
+
+  .kpi-cell {
+    width: 50%;
+  }
+}
