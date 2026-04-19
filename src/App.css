@@ -25,6 +25,10 @@
   width: 100% !important;
 }
 
+.bar-chart-wrapper {
+  height: calc(100% - 1.8rem);
+}
+
 .kpi-cell {
   width: 25%;
   box-sizing: border-box;

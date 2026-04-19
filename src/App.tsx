@@ -1,13 +1,10 @@
 import './App.css';
-import BarChart from './components/BarChart';
-import PieChart from './components/PieChart';
-import LineChart from './components/LineChart';
-import BubbleChart from './components/BubbleChart';
+import { BarChart, BubbleChart, LineChart, PieChart } from './components';
 
-import customersBySeatingPerDay from './data/CustomersBySeatingPerDay.json';
 import customersBySeating from './data/AvgCustomersBySeating.json';
-import ordersPerDay from './data/OrdersPerDay.json';
+import customersBySeatingPerDay from './data/CustomersBySeatingPerDay.json';
 import ordersByStationPerDay from './data/OrdersByStationPerDay.json';
+import ordersPerDay from './data/OrdersPerDay.json';
 
 function App() {
   return (
