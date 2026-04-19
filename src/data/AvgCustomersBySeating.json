@@ -1,6 +1,6 @@
 [
-  { "seating": "breakfast", "customers": 42 },
-  { "seating": "lunch", "customers": 78 },
-  { "seating": "earlyDinner", "customers": 85 },
-  { "seating": "lateDinner", "customers": 61 }
+  { "seating": "Breakfast", "customers": 42 },
+  { "seating": "Lunch", "customers": 78 },
+  { "seating": "EarlyDinner", "customers": 85 },
+  { "seating": "LateDinner", "customers": 61 }
 ]
