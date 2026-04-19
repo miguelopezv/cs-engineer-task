@@ -1,12 +1,13 @@
 import {
   Chart as ChartJS,
+  Legend,
   LinearScale,
   PointElement,
   Tooltip,
-  Legend,
   type TooltipItem,
 } from 'chart.js';
 import { Bubble } from 'react-chartjs-2';
+import { formatDateUtc } from '../utils/dateFormatter';
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -22,14 +23,24 @@ interface Props {
   results: StationDay[];
 }
 
-const formatDate = (ts: string) =>
-  new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
-const pctToRadius = (pct: number) => Math.max(3, pct * 0.35);
+// Default 3, can be increased for better visibility of small bubbles
+const pctToRadius = (pct: number) =>
+  Number.isFinite(pct) ? Math.max(3, pct * 0.35) : 3;
 
 export default function BubbleChart({ results }: Props) {
   const dailyPcts = results.map((d) => {
     const total = d.grill + d.salad + d.pasta + d.pastry;
+
+    if (total <= 0) {
+      return {
+        ts: new Date(d.timestamp).getTime(),
+        grill: 0,
+        salad: 0,
+        pasta: 0,
+        pastry: 0,
+      };
+    }
+
     return {
       ts: new Date(d.timestamp).getTime(),
       grill: (d.grill / total) * 100,
@@ -81,6 +92,13 @@ export default function BubbleChart({ results }: Props) {
   };
 
   const timestamps = results.map((d) => new Date(d.timestamp).getTime());
+  const xScaleBounds =
+    timestamps.length > 0
+      ? {
+          min: Math.min(...timestamps),
+          max: Math.max(...timestamps),
+        }
+      : {};
 
   const options = {
     responsive: true,
@@ -92,7 +110,7 @@ export default function BubbleChart({ results }: Props) {
         callbacks: {
           label: (ctx: TooltipItem<'bubble'>) => {
             const raw = ctx.raw as { x: number; y: number; r: number };
-            const date = formatDate(new Date(raw.x).toISOString());
+            const date = formatDateUtc(raw.x);
             const label = ctx.dataset.label ?? '';
             const station = label.toLowerCase() as keyof (typeof dailyPcts)[0];
             const pct = dailyPcts[ctx.dataIndex][station] as number;
@@ -104,12 +122,10 @@ export default function BubbleChart({ results }: Props) {
     scales: {
       x: {
         type: 'linear' as const,
-        min: Math.min(...timestamps),
-        max: Math.max(...timestamps),
+        ...xScaleBounds,
         title: { display: true, text: 'Date' },
         ticks: {
-          callback: (value: number | string) =>
-            formatDate(new Date(Number(value)).toISOString()),
+          callback: (value: number | string) => formatDateUtc(Number(value)),
           maxTicksLimit: 10,
         },
       },
