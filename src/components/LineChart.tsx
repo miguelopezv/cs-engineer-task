@@ -1,19 +1,21 @@
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { formatDateUtc } from '../utils/dateFormatter';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
@@ -29,19 +31,14 @@ interface Props {
 }
 
 export default function LineChart({ results }: Props) {
-  const labels = results.map((d) =>
-    new Date(d.timestamp).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-    }),
-  );
+  const labels = results.map((d) => formatDateUtc(d.timestamp));
 
   const data = {
     labels,
     datasets: [
       {
         label: 'Orders',
-        data: results.map((d) => d.orders * -100),
+        data: results.map((d) => d.orders),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         pointRadius: 4,
